@@ -7,11 +7,8 @@ public class TeachingRequirement {
     private String requirementName;
     private String[] requirementSkill;
     private int requirementStaffNumber;
-    // TODO
-    public TeachingRequirement(String courseName) {
-        this.courseName = courseName;
-    }
-    
+
+
     public String getCourseName() {
         return courseName;
     }
@@ -19,7 +16,6 @@ public class TeachingRequirement {
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
-
 
     public String getRequirementName() {
         return requirementName;
@@ -49,9 +45,6 @@ public class TeachingRequirement {
 
     @Override
     public String toString() {
-        return courseName
-                +"\t"+ requirementName
-                +"\t"+ Arrays.toString(requirementSkill)
-                +"\t"+ requirementStaffNumber;
+        return  courseName +"\t"+ requirementName +"\t"+ Arrays.toString(requirementSkill) +"\t"+ requirementStaffNumber;
     }
 }

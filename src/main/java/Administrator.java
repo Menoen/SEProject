@@ -4,14 +4,19 @@ import java.io.*;
 import java.util.*;
 
 public class Administrator extends User {
-    // TODO
-    public Administrator(String name) {
-        super(name);
+    public Administrator() {
+        super();
     }
 //    private static StringBuilder[][] qualified = new StringBuilder[10][2];
 
-    public static void main(String[] args) {
-        Administrator admin=new Administrator("admin");
+    public static void main(String[] args){
+        try {
+            new Directors().chooseInputway();//新增
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Administrator admin=new Administrator();
         System.out.println("The administrator obtains teaching requirements from the director");
         ArrayList<TeachingRequirement> listTeachReq = admin.readTeachReq();
         for (TeachingRequirement req:listTeachReq) {
@@ -21,7 +26,7 @@ public class Administrator extends User {
 
         System.out.println("The administrator checks the teacher’s information and looks for qualified teachers for each course");
         StringBuilder[][] qualified = new StringBuilder[listTeachReq.size()][2];
-        StringBuilder[][] checkResult= admin.checkPtt(qualified);
+        qualified= admin.checkPtt();
         for (int i = 0; i < listTeachReq.size(); i++) {
             System.out.println(qualified[i][0]+": "+qualified[i][1]);
         }
@@ -29,23 +34,20 @@ public class Administrator extends User {
 
         System.out.println("Please review the staff_information file for training information");
         try {
-            admin.trainingPTT(checkResult);
+            admin.trainingPTT(qualified);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public ArrayList<TeachingRequirement> readTeachReq(){
-        // TODO
-        Directors directors = new Directors("Karen","Database");
-        //The administrator obtains teaching requirements from the director
-        ArrayList<TeachingRequirement> listTeachReq = directors.uploadRequirements();
-        return listTeachReq;
+        ArrayList<TeachingRequirement> listTeachReq = ListOfTeachingReq.getListTeachingRequirement();
+        return ListOfTeachingReq.getListTeachingRequirement();
     }
 
     public StringBuilder[][] checkPtt(){
         ArrayList<TeachingRequirement> listTeachReq=readTeachReq();
-        StringBuilder[][] qualified=new ListOfTeachingReq(listTeachReq.size());
+        StringBuilder[][] qualified=new StringBuilder[listTeachReq.size()][2];
 
         for (int i = 0; i < listTeachReq.size(); i++) {
             int num = 0;//We use num to represent how many teacher can fulfill each lab's requirements

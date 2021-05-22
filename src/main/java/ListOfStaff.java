@@ -2,18 +2,13 @@ package main.java;
 
 import java.util.ArrayList;
 
-public class ListOfStaff {
-    /**
-     * ArrayList of staffs(PTTs)
-     */
-    ArrayList<Staff> staffList = new ArrayList<Staff>();
+public class ListOfStaff implements List{
+    private static ArrayList<Staff> listOfStaffs;
 
-    public ArrayList<Staff> getStaffList() {
-        return staffList;
+    public static ArrayList<Staff> getListOfStaffs() {
+        return listOfStaffs;
     }
-
-    public void setStaffList(ArrayList<Staff> staffList) {
-        this.staffList = staffList;
+    public static void add(Staff s){
+        listOfStaffs.add(s);
     }
-
 }

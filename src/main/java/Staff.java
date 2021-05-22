@@ -11,9 +11,8 @@ public class Staff extends User {
     // Define the String training to store the Staff's skills.
     private String training;
     // Constructor.
-    public Staff(String name, String[] skill){
-        super(name);
-        this.skill = skill;
+    public Staff(){
+        super();
     }
     // Define the get method of course.
     public String getCourse() {

@@ -6,8 +6,9 @@ package main.java;
 public class User {
     // Define the User's name as a private attribute.
     private String name;
-    public User(String name) {
-        this.name = name;
+    // Constructor
+    public User(){
+        super();
     }
     // Get the name.
     public String getName() {
