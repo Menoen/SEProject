@@ -13,12 +13,9 @@ class StaffTest {
         Staff staff = new Staff();
         // set the course the PTT teaches
         staff.setCourse("Health");
+        staff.setSkill(arrSkills);
+        // Test for getters
         System.out.println(staff.getName() + "\'s course is" +staff.getCourse());
         System.out.println(staff.getName() + "\'s skills are" +staff.getSkill());
-        // change the skills of the staff
-        arrSkills = new String[]{"Mental", "Body"};
-        staff.setSkill(arrSkills);
-        System.out.println(staff.getName() + "\'s new course are" +staff.getSkill());
-
     }
 }

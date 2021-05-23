@@ -25,8 +25,6 @@ public class Demo {
             if("no".equals(continueFlag)){
                 break;
             } else {
-                System.out.println("Please enter the course's name owned by the director");
-                String courseName = sc.next();
                 wayFlag = new Directors().chooseInputway(wayFlag);
                 if ("1".equals(wayFlag)) {
                     // wayFlag is 1 means the director choose uploading by file, so no need to upload continually
@@ -56,13 +54,13 @@ public class Demo {
         for (Staff i:ListOfStaff.getListOfStaffs()) {
             System.out.println(i);
         }
-        System.out.println("------");
+        System.out.println("------------------------------------");
 
         StringBuilder[][] qualified = admin.comparePttWithReq();
         for (int i = 0; i < listTeachReq.size(); i++) {
             System.out.println(qualified[i][0]+": "+qualified[i][1]);
         }
-        System.out.println("------");
+        System.out.println("------------------------------------");
         System.out.println("Please review the staff_information file for training information");
         try {
             admin.trainingPTT(qualified);
