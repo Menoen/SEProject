@@ -121,7 +121,7 @@ public class Administrator extends User {
         return qualified;
     }
 
-    public void trainingPTT(StringBuilder[][] checkResult) throws IOException{
+    public void trainingPTT(StringBuilder[][] qualified) throws IOException{
 
         File tmpFile = File.createTempFile("data", "csv");
         PrintWriter writer= new PrintWriter(new FileWriter(tmpFile));
@@ -137,11 +137,11 @@ public class Administrator extends User {
             String[] pttInfo = line1.split(",");
 
             //Traverse the array and check to see if it contains the name of the teacher in the current row
-            for (int i = 0; i < checkResult.length; i++) {
-                String[] courseInfo=checkResult[i][0].toString().split(",");
+            for (int i = 0; i < qualified.length; i++) {
+                String[] courseInfo=qualified[i][0].toString().split(",");
                 //System.out.print(checkResult[i][1].toString());
                 //System.out.println(pttInfo[0]);
-                if (checkResult[i][1].toString().contains(pttInfo[0])){
+                if (qualified[i][1].toString().contains(pttInfo[0])){
                     //System.out.println("peidaole");
                     flag=true;
                     int j=0;
