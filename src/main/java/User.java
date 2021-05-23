@@ -10,6 +10,11 @@ public class User {
     public User(){
         super();
     }
+
+    public User(String name) {
+        this.name = name;
+    }
+
     // Get the name.
     public String getName() {
         return name;

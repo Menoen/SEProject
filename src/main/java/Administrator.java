@@ -24,14 +24,26 @@ public class Administrator extends User {
         }
         System.out.println("------");
 
-        System.out.println("The administrator checks the teacher’s information and looks for qualified teachers for each course");
-        StringBuilder[][] qualified = new StringBuilder[listTeachReq.size()][2];
-        qualified= admin.checkPtt();
+        admin.checkPtt();
+        for (Staff i:ListOfStaff.getListOfStaffs()) {
+            System.out.println(i);
+        }
+        System.out.println("------");
+
+        StringBuilder[][] qualified = admin.comparePttWithReq();
         for (int i = 0; i < listTeachReq.size(); i++) {
             System.out.println(qualified[i][0]+": "+qualified[i][1]);
         }
         System.out.println("------");
 
+//        System.out.println("The administrator checks the teacher’s information and looks for qualified teachers for each course");
+//        StringBuilder[][] qualified = new StringBuilder[listTeachReq.size()][2];
+//        qualified= admin.checkPtt();
+//        for (int i = 0; i < listTeachReq.size(); i++) {
+//            System.out.println(qualified[i][0]+": "+qualified[i][1]);
+//        }
+//        System.out.println("------");
+//
         System.out.println("Please review the staff_information file for training information");
         try {
             admin.trainingPTT(qualified);
@@ -45,8 +57,44 @@ public class Administrator extends User {
         return ListOfTeachingReq.getListTeachingRequirement();
     }
 
-    public StringBuilder[][] checkPtt(){
+    public void checkPtt(){
+        //ListOfStaff listOfStaff=new ListOfStaff();
+        BufferedReader reader=null;
+        try {
+            reader = new BufferedReader(new FileReader("src/main/resource/staff_information.csv"));
+            reader.readLine();//Read the first line of the file (column header)
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] pttInfo = line.split(",");
+                Staff s=new Staff();
+                s.setName(pttInfo[0]);
+                //the first column (index=0) is the teacher's name,
+                // now we want to get their skills (index from 1, may more than one)
+                String[] skills=new String[pttInfo.length-1];
+                int col = 1;
+                while (pttInfo.length>col) {
+                    skills[col-1]=pttInfo[col];
+                    col++;
+                }
+                s.setSkill(skills);
+                ListOfStaff.add(s);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public StringBuilder[][] comparePttWithReq(){
+        ArrayList<Staff> list=ListOfStaff.getListOfStaffs();
         ArrayList<TeachingRequirement> listTeachReq=readTeachReq();
+
         StringBuilder[][] qualified=new StringBuilder[listTeachReq.size()][2];
 
         for (int i = 0; i < listTeachReq.size(); i++) {
@@ -58,39 +106,14 @@ public class Administrator extends User {
             String[] reqSkill=listTeachReq.get(i).getRequirementSkill();
             int staffNum=listTeachReq.get(i).getRequirementStaffNumber();
 
-            BufferedReader reader=null;
-            try {
-                reader = new BufferedReader(new FileReader("src/main/resource/staff_information.csv"));
-                reader.readLine();//Read the first line of the file (column header)
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    String[] pttInfo = line.split(",");
-                    ArrayList<String> pttSkills = new ArrayList<String>();
-                    //the first column (index=0) is the teacher's,
-                    // now we want to get their skills (index from 1, may more than one)
-                    int col = 1;
-                    while (pttInfo.length>col) {
-                        pttSkills.add(pttInfo[col++]);
+            for (int j = 0; j < list.size(); j++) {
+                if(equals(reqSkill,list.get(j).getSkill())){//check whether the teacher can fulfill the required skill(s)
+                    if(num<staffNum){//if more than the staffNum we need, we only train the teachers who appear early in the file
+                        qualifiedTeacher.append(list.get(j).getName()).append("\t");
                     }
-
-                    if(equals(reqSkill,pttSkills)){//check whether the teacher can fulfill the required skill(s)
-                        if(num<staffNum){//if more than the staffNum we need, we only train the teachers who appear early in the file
-                            qualifiedTeacher.append(pttInfo[0]).append("\t");
-                        }
-                        num++;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    reader.close();
-                } catch (IOException e){
-                    e.printStackTrace();
+                    num++;
                 }
             }
-
             qualified[i][0]=new StringBuilder(course+","+req);//courses' name and lab's name
             qualified[i][1]=qualifiedTeacher;//All teachers who meet the requirements of the course
         }
@@ -114,9 +137,12 @@ public class Administrator extends User {
             String[] pttInfo = line1.split(",");
 
             //Traverse the array and check to see if it contains the name of the teacher in the current row
-            for (int i = 0; i < checkResult.length-1; i++) {
+            for (int i = 0; i < checkResult.length; i++) {
                 String[] courseInfo=checkResult[i][0].toString().split(",");
+                //System.out.print(checkResult[i][1].toString());
+                //System.out.println(pttInfo[0]);
                 if (checkResult[i][1].toString().contains(pttInfo[0])){
+                    //System.out.println("peidaole");
                     flag=true;
                     int j=0;
                     while (j<pttInfo.length){//write the teacher's info to this row, more than one column
@@ -134,6 +160,7 @@ public class Administrator extends User {
                 }
             }
             if(!flag){
+                //System.out.println("meiyou");
                 writer.println(line1);//this teacher don't meet the requirement, write his info to the row without change
             }
         }
@@ -145,7 +172,7 @@ public class Administrator extends User {
 
     //The only concern is whether the teacher’s skills meet the requirements,
     // which is independent of the order. For example, “A, B” is the same as "B, A”
-    public static boolean equals(Object[] a, ArrayList<String> b) {
-        return a.length == b.size() && Arrays.asList(a).containsAll(b);
+    public static boolean equals(Object[] a, Object[] b) {
+        return a.length == b.length && Arrays.asList(a).containsAll(Arrays.asList(b));
     }
 }
