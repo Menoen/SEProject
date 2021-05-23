@@ -35,8 +35,14 @@ class AdministratorTest {
         rq1.setRequirementSkill(new String[]{"java","sql"});
         ListOfTeachingReq listOfTeachingReq = new ListOfTeachingReq();
         listOfTeachingReq.add(rq1);
-
+        StringBuilder[][] qulified1 = admin.comparePttWithReq();
+        try {
+            admin.trainingPTT(qulified1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // Test2 find the correct list of teachers with skills "Java" or "SQL"
+//        rq1.setRequirementSkill(new String[]{"java","sql"});
         // Test3 if the program will go on if we search the list of teachers with more than 2 skills
         // Test4 if the program will go on if we search the list of teachers with empty skills
     }

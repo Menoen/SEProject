@@ -160,7 +160,6 @@ public class Administrator extends User {
                 }
             }
             if(!flag){
-                //System.out.println("meiyou");
                 writer.println(line1);//this teacher don't meet the requirement, write his info to the row without change
             }
         }
