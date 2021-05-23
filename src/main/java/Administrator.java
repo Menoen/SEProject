@@ -11,7 +11,7 @@ public class Administrator extends User {
 
     public static void main(String[] args){
         try {
-            new Directors().chooseInputway();//新增
+            new Directors().chooseInputway(null);//new director
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -24,17 +24,17 @@ public class Administrator extends User {
         }
         System.out.println("------");
 
-        admin.checkPtt();
-        for (Staff i:ListOfStaff.getListOfStaffs()) {
-            System.out.println(i);
-        }
-        System.out.println("------");
-
-        StringBuilder[][] qualified = admin.comparePttWithReq();
-        for (int i = 0; i < listTeachReq.size(); i++) {
-            System.out.println(qualified[i][0]+": "+qualified[i][1]);
-        }
-        System.out.println("------");
+//        admin.checkPtt();
+//        for (Staff i:ListOfStaff.getListOfStaffs()) {
+//            System.out.println(i);
+//        }
+//        System.out.println("------");
+//
+//        StringBuilder[][] qualified = admin.comparePttWithReq();
+//        for (int i = 0; i < listTeachReq.size(); i++) {
+//            System.out.println(qualified[i][0]+": "+qualified[i][1]);
+//        }
+//        System.out.println("------");
 
 //        System.out.println("The administrator checks the teacher’s information and looks for qualified teachers for each course");
 //        StringBuilder[][] qualified = new StringBuilder[listTeachReq.size()][2];
@@ -44,12 +44,12 @@ public class Administrator extends User {
 //        }
 //        System.out.println("------");
 //
-        System.out.println("Please review the staff_information file for training information");
-        try {
-            admin.trainingPTT(qualified);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        System.out.println("Please review the staff_information file for training information");
+//        try {
+//            admin.trainingPTT(qualified);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public ArrayList<TeachingRequirement> readTeachReq(){
@@ -167,7 +167,7 @@ public class Administrator extends User {
 
         reader.close();
         writer.close();
-        tmpFile.renameTo(srcFile);
+//        tmpFile.renameTo(srcFile);
     }
 
     //The only concern is whether the teacher’s skills meet the requirements,

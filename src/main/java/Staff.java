@@ -16,12 +16,6 @@ public class Staff extends User {
     public Staff(){
         super();
     }
-    public Staff(String name, String[] skill, String course, String training) {
-        super(name);
-        this.skill = skill;
-        this.course = course;
-        this.training = training;
-    }
     // Define the get method of course.
     public String getCourse() {
         return course;
