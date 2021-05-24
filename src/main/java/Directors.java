@@ -26,7 +26,7 @@ public class Directors extends User {
         FileInputStream f1 = null;
         InputStreamReader i1 = null;
         BufferedReader b1 = null;
-        ListOfTeachingReq lot=new ListOfTeachingReq();
+        ListOfTeachingReq lot = ListOfTeachingReq.instance();
         try {
             // TODO
             f1 = new FileInputStream("src/main/resource/teaching requirement(class directors).txt");
@@ -81,7 +81,7 @@ public class Directors extends User {
             a.setRequirementName(s[1]);
             a.setRequirementStaffNumber(Integer.parseInt(s[3]));
             a.setRequirementSkill(s[2].split(","));
-            new ListOfTeachingReq().add(a);
+            ListOfTeachingReq.getListTeachingRequirement().add(a);
             bw.newLine();
             bw.flush();
         }

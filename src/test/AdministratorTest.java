@@ -33,9 +33,9 @@ class AdministratorTest {
         rq1.setRequirementName("PROGRAM");
         rq1.setRequirementStaffNumber(1);
         rq1.setRequirementSkill(new String[]{"java","sql"});
-        ListOfTeachingReq listOfTeachingReq = new ListOfTeachingReq();
+        ListOfTeachingReq listOfTeachingReq = ListOfTeachingReq.instance();
         listOfTeachingReq.add(rq1);
-        StringBuilder[][] qualified1 = admin.comparePttWithReq();
+        StringBuilder[][] qualified1 = comparePttWithReq(admin);
         try {
             admin.trainingPTT(qualified1);
         } catch (IOException e) {

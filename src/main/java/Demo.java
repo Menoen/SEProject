@@ -25,7 +25,8 @@ public class Demo {
             if("no".equals(continueFlag)){
                 break;
             } else {
-                wayFlag = new Directors().chooseInputway(wayFlag);
+                Directors directors1 = (Directors) UserFactory.createUser("director");
+                wayFlag = directors1.chooseInputway(wayFlag);
                 if ("1".equals(wayFlag)) {
                     // wayFlag is 1 means the director choose uploading by file, so no need to upload continually
                     break;

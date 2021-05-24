@@ -12,7 +12,8 @@ import java.util.Arrays;
  */
 public class ListOfTeachingReqTest {
     public static void main(String[] args) {
-        ListOfTeachingReq reqList = new ListOfTeachingReq();
+        // singleton pattern
+        ListOfTeachingReq reqList = ListOfTeachingReq.instance();
         TeachingRequirement req = new TeachingRequirement();
         req.setCourseName("Japanese");
         req.setRequirementSkill(new String[]{"Language","Japanese"});

@@ -10,4 +10,11 @@ public class ListOfTeachingReq implements List {
     public void add(TeachingRequirement t) {
         listTeachingRequirement.add(t);
     }
+    private ListOfTeachingReq() {
+        super();
+    }
+    private static ListOfTeachingReq lf = new ListOfTeachingReq();
+    public  static ListOfTeachingReq instance() {
+        return lf;
+    }
 }
