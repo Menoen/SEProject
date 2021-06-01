@@ -8,29 +8,41 @@ import java.util.Scanner;
  * The class Directors extends User and Directors can uploads the teaching requirements
  */
 public class Directors extends User {
+    String courseName;
     public Directors() {
         super();
     }
 
-    // The method uploadRequirements can upload the teaching requirements in three arraylists
+    // getter
+    public String getCourseName() {
+        return courseName;
+    }
+
+    // setter
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    /**
+     * The method uploadRequirements can upload the teaching requirements in three arraylists
+     */
     public void uploadRequirements() {
         FileInputStream f1 = null;
         InputStreamReader i1 = null;
         BufferedReader b1 = null;
-        ListOfTeachingReq lot=new ListOfTeachingReq();
+        ListOfTeachingReq lot = ListOfTeachingReq.instance();
         try {
-            // TODO
             f1 = new FileInputStream("src/main/resource/teaching requirement(class directors).txt");
             i1 = new InputStreamReader(f1);
             b1 = new BufferedReader(i1);
             String line = "";
-            String[] arrs = null;
+            String[] arrs;
             b1.readLine();
             // Scan each line to read the name, skill and Staff number to store them in arraylists.
             while ((line = b1.readLine()) != null) {
                 arrs = line.split(" ");
-                // TODO
                 TeachingRequirement a = new TeachingRequirement();
+                // set the
                 a.setCourseName(arrs[0]);
                 a.setRequirementName(arrs[1]);
                 a.setRequirementStaffNumber(Integer.parseInt(arrs[3]));
@@ -52,7 +64,7 @@ public class Directors extends User {
     }
 
     public void inputReq() throws IOException {
-        //键盘录入
+        // input by keyboard
         BufferedReader bfr = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resource/teaching_requirements.txt"));
         bw.write("courseName requirementName requirementSkills requirementStaffnumber");
@@ -64,6 +76,7 @@ public class Directors extends User {
         System.out.println("Use 'end' to terminate the input process!!!");
 
         String line;
+        // the loop will terminate when one line is "end"
         while (!(line = bfr.readLine()).equals("end")) {
             bw.write(line);
             String[] s = line.split(" ");
@@ -72,32 +85,38 @@ public class Directors extends User {
             a.setRequirementName(s[1]);
             a.setRequirementStaffNumber(Integer.parseInt(s[3]));
             a.setRequirementSkill(s[2].split(","));
-            new ListOfTeachingReq().add(a);
+            ListOfTeachingReq.getListTeachingRequirement().add(a);
             bw.newLine();
             bw.flush();
         }
-        //关闭流
+        // close the buffer
         bw.close();
-        bfr.close();
     }
-    public void chooseInputway() throws IOException {
+    public String chooseInputway(String wayFlag) throws IOException {
+        final String zero = "0";
+        if(wayFlag!=null) {
+            // last time the director chose 1 or 0
+            if (zero.equals(wayFlag)) {
+                this.inputReq();
+            } else {
+                this.uploadRequirements();
+            }
+            return wayFlag;
+        }
         System.out.println("Choose one input way:");
         System.out.println("If you want to input by file 'teaching requirement(class directors)'");
         System.out.println("Please input 1");
         System.out.println("If you want to input by yourself");
         System.out.println("Please input 0");
         Scanner s = new Scanner(System.in);
-        if(s.nextInt()==0)
-            new Directors().inputReq();
-        else
-            new Directors().uploadRequirements();
+        String nextLine = s.nextLine();
+        if(zero.equals(nextLine)) {
+            this.inputReq();
+        } else {
+            this.uploadRequirements();
+        }
+        // return the system in to make the next director to choose the same input way
+        return nextLine;
     }
 
-    public static void main(String[] args) throws IOException {
-        new Directors().chooseInputway();
-        ArrayList<TeachingRequirement> listTeachReq = ListOfTeachingReq.getListTeachingRequirement();
-        for (TeachingRequirement req:listTeachReq) {
-            System.out.println(req);
-        }
-    }
 }

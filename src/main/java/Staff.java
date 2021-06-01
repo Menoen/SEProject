@@ -3,8 +3,8 @@ package main.java;
 import java.util.Arrays;
 
 /*
-* The class Staff extends User and Staff is PTT with attributes course and skill.
-*/
+ * The class Staff extends User and Staff is PTT with attributes course and skill.
+ */
 public class Staff extends User {
     // Define a String attribute course to store which course the Staff teaches.
     private String course;
@@ -15,12 +15,6 @@ public class Staff extends User {
     // Constructor.
     public Staff(){
         super();
-    }
-    public Staff(String name, String[] skill, String course, String training) {
-        super(name);
-        this.skill = skill;
-        this.course = course;
-        this.training = training;
     }
     // Define the get method of course.
     public String getCourse() {
@@ -52,3 +46,4 @@ public class Staff extends User {
         return getName()+"\t"+Arrays.toString(skill)+"\t"+course+"\t"+training;
     }
 }
+

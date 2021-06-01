@@ -8,7 +8,6 @@ public class TeachingRequirement {
     private String[] requirementSkill;
     private int requirementStaffNumber;
 
-
     public String getCourseName() {
         return courseName;
     }
@@ -25,7 +24,6 @@ public class TeachingRequirement {
         this.requirementName = requirementName;
     }
 
-
     public String[] getRequirementSkill() {
         return requirementSkill;
     }
@@ -33,7 +31,6 @@ public class TeachingRequirement {
     public void setRequirementSkill(String[] requirementSkill) {
         this.requirementSkill = requirementSkill;
     }
-
 
     public int getRequirementStaffNumber() {
         return requirementStaffNumber;
@@ -48,3 +45,4 @@ public class TeachingRequirement {
         return  courseName +"\t"+ requirementName +"\t"+ Arrays.toString(requirementSkill) +"\t"+ requirementStaffNumber;
     }
 }
+

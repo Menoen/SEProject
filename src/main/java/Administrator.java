@@ -7,58 +7,20 @@ public class Administrator extends User {
     public Administrator() {
         super();
     }
-//    private static StringBuilder[][] qualified = new StringBuilder[10][2];
 
-    public static void main(String[] args){
-        try {
-            new Directors().chooseInputway();//新增
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Administrator admin=new Administrator();
-        System.out.println("The administrator obtains teaching requirements from the director");
-        ArrayList<TeachingRequirement> listTeachReq = admin.readTeachReq();
-        for (TeachingRequirement req:listTeachReq) {
-            System.out.println(req);
-        }
-        System.out.println("------");
-
-        admin.checkPtt();
-        for (Staff i:ListOfStaff.getListOfStaffs()) {
-            System.out.println(i);
-        }
-        System.out.println("------");
-
-        StringBuilder[][] qualified = admin.comparePttWithReq();
-        for (int i = 0; i < listTeachReq.size(); i++) {
-            System.out.println(qualified[i][0]+": "+qualified[i][1]);
-        }
-        System.out.println("------");
-
-//        System.out.println("The administrator checks the teacher’s information and looks for qualified teachers for each course");
-//        StringBuilder[][] qualified = new StringBuilder[listTeachReq.size()][2];
-//        qualified= admin.checkPtt();
-//        for (int i = 0; i < listTeachReq.size(); i++) {
-//            System.out.println(qualified[i][0]+": "+qualified[i][1]);
-//        }
-//        System.out.println("------");
-//
-        System.out.println("Please review the staff_information file for training information");
-        try {
-            admin.trainingPTT(qualified);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * read the teaching requirements
+     * @return
+     */
     public ArrayList<TeachingRequirement> readTeachReq(){
         ArrayList<TeachingRequirement> listTeachReq = ListOfTeachingReq.getListTeachingRequirement();
         return ListOfTeachingReq.getListTeachingRequirement();
     }
 
+    /**
+     * read the staffs' information from files
+     */
     public void checkPtt(){
-        //ListOfStaff listOfStaff=new ListOfStaff();
         BufferedReader reader=null;
         try {
             reader = new BufferedReader(new FileReader("src/main/resource/staff_information.csv"));
@@ -67,7 +29,7 @@ public class Administrator extends User {
 
             while ((line = reader.readLine()) != null) {
                 String[] pttInfo = line.split(",");
-                Staff s=new Staff();
+                Staff s= (Staff) UserFactory.createUser("staff");
                 s.setName(pttInfo[0]);
                 //the first column (index=0) is the teacher's name,
                 // now we want to get their skills (index from 1, may more than one)
@@ -91,6 +53,10 @@ public class Administrator extends User {
         }
     }
 
+    /**
+     * compare staffs' information with teaching requirement, to find suitable staffs for courses
+     * @return
+     */
     public StringBuilder[][] comparePttWithReq(){
         ArrayList<Staff> list=ListOfStaff.getListOfStaffs();
         ArrayList<TeachingRequirement> listTeachReq=readTeachReq();
@@ -121,7 +87,12 @@ public class Administrator extends User {
         return qualified;
     }
 
-    public void trainingPTT(StringBuilder[][] checkResult) throws IOException{
+    /**
+     * organise training for suitable staffs
+     * @param qualified
+     * @throws IOException
+     */
+    public void trainingPTT(StringBuilder[][] qualified) throws IOException{
 
         File tmpFile = File.createTempFile("data", "csv");
         PrintWriter writer= new PrintWriter(new FileWriter(tmpFile));
@@ -137,12 +108,9 @@ public class Administrator extends User {
             String[] pttInfo = line1.split(",");
 
             //Traverse the array and check to see if it contains the name of the teacher in the current row
-            for (int i = 0; i < checkResult.length; i++) {
-                String[] courseInfo=checkResult[i][0].toString().split(",");
-                //System.out.print(checkResult[i][1].toString());
-                //System.out.println(pttInfo[0]);
-                if (checkResult[i][1].toString().contains(pttInfo[0])){
-                    //System.out.println("peidaole");
+            for (int i = 0; i < qualified.length; i++) {
+                String[] courseInfo=qualified[i][0].toString().split(",");
+                if (qualified[i][1].toString().contains(pttInfo[0])){
                     flag=true;
                     int j=0;
                     while (j<pttInfo.length){//write the teacher's info to this row, more than one column
@@ -160,7 +128,6 @@ public class Administrator extends User {
                 }
             }
             if(!flag){
-                //System.out.println("meiyou");
                 writer.println(line1);//this teacher don't meet the requirement, write his info to the row without change
             }
         }
