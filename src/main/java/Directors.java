@@ -8,17 +8,8 @@ import java.util.Scanner;
  * The class Directors extends User and Directors can uploads the teaching requirements
  */
 public class Directors extends User {
-    String courseName;
     public Directors() {
         super();
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
     }
 
     // The method uploadRequirements can upload the teaching requirements in three arraylists
@@ -33,7 +24,7 @@ public class Directors extends User {
             i1 = new InputStreamReader(f1);
             b1 = new BufferedReader(i1);
             String line = "";
-            String[] arrs;
+            String[] arrs = null;
             b1.readLine();
             // Scan each line to read the name, skill and Staff number to store them in arraylists.
             while ((line = b1.readLine()) != null) {
@@ -87,39 +78,26 @@ public class Directors extends User {
         }
         //关闭流
         bw.close();
+        bfr.close();
     }
-    public String chooseInputway(String wayFlag) throws IOException {
-        final String zero = "0";
-        if(wayFlag!=null) {
-            // last time the director choosed 1 or 0
-            if (zero.equals(wayFlag)) {
-                this.inputReq();
-            } else {
-                this.uploadRequirements();
-            }
-            return wayFlag;
-        }
+    public void chooseInputway() throws IOException {
         System.out.println("Choose one input way:");
         System.out.println("If you want to input by file 'teaching requirement(class directors)'");
         System.out.println("Please input 1");
         System.out.println("If you want to input by yourself");
         System.out.println("Please input 0");
         Scanner s = new Scanner(System.in);
-        String nextLine = s.nextLine();
-        if(zero.equals(nextLine)) {
-            this.inputReq();
-        } else {
-            this.uploadRequirements();
-        }
-        // return the system in to make the next director to choose the same input way
-        return nextLine;
+        if(s.nextInt()==0)
+            new Directors().inputReq();
+        else
+            new Directors().uploadRequirements();
     }
 
-//    public static void main(String[] args) throws IOException {
-//        new Directors("English").chooseInputway(null);
-//        ArrayList<TeachingRequirement> listTeachReq = ListOfTeachingReq.getListTeachingRequirement();
-//        for (TeachingRequirement req:listTeachReq) {
-//            System.out.println(req);
-//        }
-//    }
+    public static void main(String[] args) throws IOException {
+        new Directors().chooseInputway();
+        ArrayList<TeachingRequirement> listTeachReq = ListOfTeachingReq.getListTeachingRequirement();
+        for (TeachingRequirement req:listTeachReq) {
+            System.out.println(req);
+        }
+    }
 }

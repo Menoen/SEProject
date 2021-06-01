@@ -11,7 +11,7 @@ public class Administrator extends User {
 
     public static void main(String[] args){
         try {
-            new Directors().chooseInputway(null);//new director
+            new Directors().chooseInputway();//新增
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -24,17 +24,17 @@ public class Administrator extends User {
         }
         System.out.println("------");
 
-//        admin.checkPtt();
-//        for (Staff i:ListOfStaff.getListOfStaffs()) {
-//            System.out.println(i);
-//        }
-//        System.out.println("------");
-//
-//        StringBuilder[][] qualified = admin.comparePttWithReq();
-//        for (int i = 0; i < listTeachReq.size(); i++) {
-//            System.out.println(qualified[i][0]+": "+qualified[i][1]);
-//        }
-//        System.out.println("------");
+        admin.checkPtt();
+        for (Staff i:ListOfStaff.getListOfStaffs()) {
+            System.out.println(i);
+        }
+        System.out.println("------");
+
+        StringBuilder[][] qualified = admin.comparePttWithReq();
+        for (int i = 0; i < listTeachReq.size(); i++) {
+            System.out.println(qualified[i][0]+": "+qualified[i][1]);
+        }
+        System.out.println("------");
 
 //        System.out.println("The administrator checks the teacher’s information and looks for qualified teachers for each course");
 //        StringBuilder[][] qualified = new StringBuilder[listTeachReq.size()][2];
@@ -44,12 +44,12 @@ public class Administrator extends User {
 //        }
 //        System.out.println("------");
 //
-//        System.out.println("Please review the staff_information file for training information");
-//        try {
-//            admin.trainingPTT(qualified);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        System.out.println("Please review the staff_information file for training information");
+        try {
+            admin.trainingPTT(qualified);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<TeachingRequirement> readTeachReq(){
@@ -121,7 +121,7 @@ public class Administrator extends User {
         return qualified;
     }
 
-    public void trainingPTT(StringBuilder[][] qualified) throws IOException{
+    public void trainingPTT(StringBuilder[][] checkResult) throws IOException{
 
         File tmpFile = File.createTempFile("data", "csv");
         PrintWriter writer= new PrintWriter(new FileWriter(tmpFile));
@@ -137,11 +137,11 @@ public class Administrator extends User {
             String[] pttInfo = line1.split(",");
 
             //Traverse the array and check to see if it contains the name of the teacher in the current row
-            for (int i = 0; i < qualified.length; i++) {
-                String[] courseInfo=qualified[i][0].toString().split(",");
+            for (int i = 0; i < checkResult.length; i++) {
+                String[] courseInfo=checkResult[i][0].toString().split(",");
                 //System.out.print(checkResult[i][1].toString());
                 //System.out.println(pttInfo[0]);
-                if (qualified[i][1].toString().contains(pttInfo[0])){
+                if (checkResult[i][1].toString().contains(pttInfo[0])){
                     //System.out.println("peidaole");
                     flag=true;
                     int j=0;
@@ -167,7 +167,7 @@ public class Administrator extends User {
 
         reader.close();
         writer.close();
-//        tmpFile.renameTo(srcFile);
+        tmpFile.renameTo(srcFile);
     }
 
     //The only concern is whether the teacher’s skills meet the requirements,
